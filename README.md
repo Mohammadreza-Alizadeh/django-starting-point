@@ -1,2 +1,13 @@
-# django-starting-point
-This is a starting point app with custom user configs you can use  
+## usage
+
+install cookiecutter
+
+```
+pip install cookiecutter
+```
+
+setup the project
+
+```
+cookiecutter https://github.com/Mohammadreza-Alizadeh/django-starting-point.git
+```
