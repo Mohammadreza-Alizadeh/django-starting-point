@@ -3,7 +3,7 @@
 # Defining variables
 TEMPLATE_URL="https://github.com/Mohammadreza-Alizadeh/django-starting-point.git"
 VENV_DIR="./env"
-INITIAL_DIRS=$(ls -d */)
+INITIAL_DIRS=$(find . -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
 
 main(){
 
@@ -17,11 +17,17 @@ main(){
     cookiecutter $TEMPLATE_URL
     
     # Finding out the project name via finding new generated directory  
-    FINAL_DIRS=$(ls -d */)
-    PROJECT_DIR=$(comm -13 <(echo "$INITIAL_DIRS") <(echo "$FINAL_DIRS"))
-    
+    FINAL_DIRS=$(find . -mindepth 1 -maxdepth 1 -type d 2>/dev/null | sort)
+    NEW_DIRS=$(comm -13 <(echo "$INITIAL_DIRS") <(echo "$FINAL_DIRS"))
+    PROJECT_DIR=""
+    for dir in $NEW_DIRS; do
+    if [[ "$(basename "$dir")" != "env" ]]; then
+        PROJECT_DIR="$dir"
+        break
+    fi
+    done
 
-    echo $PROJECT_DIR
+   
     # Going to project root and installing dependencies
     cd $PROJECT_DIR
     install_requirements
